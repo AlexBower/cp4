@@ -22,6 +22,12 @@
           <button>Species</button>
         </router-link>
       </div>
+      <div class="menu-buffer"></div>
+      <div class="menu-item">
+        <router-link to="/teacher">
+          <button>Teacher</button>
+        </router-link>
+      </div>
     </div>
   </div>
   <router-view />

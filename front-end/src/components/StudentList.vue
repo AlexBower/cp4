@@ -3,7 +3,7 @@
   <div class="students">
     <div class="student" v-for="student in students" :key="student.id">
       <div class="info">
-        <h1>{{student.firstName}} {{student.lastName}}</h1>
+        <h1>{{student.firstname}} {{student.lastname}}</h1>
         <p>{{student.gender}}</p>
         <p>{{student.species}}</p>
         <div class="gpa">
@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="image">
-        <img :src="'/images/animals/'+student.image">
+        <img :src="student.path">
       </div>
     </div>
   </div>

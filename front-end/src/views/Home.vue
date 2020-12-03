@@ -5,8 +5,8 @@
       <div style="padding-bottom: 10px;">Order by:</div>
       <div class="pure-menu pure-menu-horizontal" style="width: fit-content; padding-bottom: 10px">
         <ul class="pure-menu-list">
-          <li class="pure-menu-item"><a @click="select('firstName')" href="#" class="pure-menu-link">First Name</a></li>
-          <li class="pure-menu-item"><a @click="select('lastName')" href="#" class="pure-menu-link">Last Name</a></li>
+          <li class="pure-menu-item"><a @click="select('firstname')" href="#" class="pure-menu-link">First Name</a></li>
+          <li class="pure-menu-item"><a @click="select('lastname')" href="#" class="pure-menu-link">Last Name</a></li>
         </ul>
       </div>
       <div style="padding-bottom: 10px;">Search for student by name:</div>
@@ -75,13 +75,13 @@ export default {
     data() {
     return {
       searchText: '',
-      sortBy: 'firstName',
+      sortBy: 'firstname',
     }
   },
   computed: {
     students() {
       return this.$root.$data.students
-        .filter(student => (student.firstName + " " + student.lastName).toLowerCase().search(this.searchText.toLowerCase()) >= 0)
+        .filter(student => (student.firstname + " " + student.lastname).toLowerCase().search(this.searchText.toLowerCase()) >= 0)
         .sort((a, b) => (a[this.sortBy] > b[this.sortBy]) ? 1 : -1);
     }
   },
