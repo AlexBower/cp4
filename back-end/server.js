@@ -78,4 +78,35 @@ app.get('/api/students', async (req, res) => {
   }
 });
 
+app.delete('/api/students/:id', async (req, res) => {
+  try {
+    await Student.deleteOne({
+      _id: req.params.id
+    });
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
+app.put('/api/students/:id', async (req, res) => {
+  try {
+    let student = await Student.findOne({
+      _id: req.params.id
+    });
+    student.title = req.body.title;
+    student.firstname = req.body.firstname,
+    student.lastname = req.body.lastname,
+    student.species = req.body.species,
+    student.gender = req.body.gender,
+    student.gpa = req.body.gpa,
+    await student.save();
+    res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+  }
+});
+
 app.listen(3000, () => console.log('Server listening on port 3000!'));

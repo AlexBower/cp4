@@ -29,6 +29,37 @@
         <img :src="addStudent.path" />
       </div>
     </div>
+    <div class="heading">
+      <div class="circle">2</div>
+      <h2>Edit/Remove a Student</h2>
+    </div>
+    <div class="edit">
+      <div class="form">
+        <input v-model="findName" placeholder="Search">
+        <div class="suggestions" v-if="suggestions.length > 0">
+          <div class="suggestion" v-for="s in suggestions" :key="s.id" @click="selectStudent(s)">
+            {{s.firstname}} {{s.lastname}}
+          </div>
+        </div>
+      </div>
+      <div class="upload" v-if="findStudent">
+        <input v-model="findStudent.firstname" placeholder="Firstname">
+        <p></p>
+        <input v-model="findStudent.lastname" placeholder="Lastname">
+        <p></p>
+        <input v-model="findStudent.species" placeholder="Species">
+        <p></p>
+        <input v-model="findStudent.gender" placeholder="Gender">
+        <p></p>
+        <input v-model.number="findStudent.gpa" type="number" step=".01">
+        <p></p>
+        <img :src="findStudent.path" />
+      </div>
+      <div class="actions" v-if="findStudent">
+        <button @click="deleteStudent(findStudent)">Delete</button>
+        <button @click="editStudent(findStudent)">Edit</button>
+      </div>
+    </div>
 </div>
 </template>
 
@@ -77,6 +108,21 @@ button {
   margin-right: 50px;
 }
 
+/* Suggestions */
+.suggestions {
+  width: 200px;
+  border: 1px solid #ccc;
+}
+
+.suggestion {
+  min-height: 20px;
+}
+
+.suggestion:hover {
+  background-color: #5BDEFF;
+  color: #fff;
+}
+
 /* Uploaded images */
 .upload h2 {
   margin: 0px;
@@ -100,6 +146,15 @@ export default {
       gpa: 4,
       file: null,
       addStudent: null,
+      findName: "",
+      findStudent: null,
+    }
+  },
+  computed: {
+    suggestions() {
+      return this.$root.$data.students
+        .filter(student => (student.firstname + " " + student.lastname).toLowerCase().search(this.findName.toLowerCase()) >= 0)
+        .sort((a, b) => (a[this.sortBy] > b[this.sortBy]) ? 1 : -1);
     }
   },
   methods: {
@@ -120,6 +175,37 @@ export default {
           path: r1.data.path
         });
         this.addStudent = r2.data;
+        this.$root.getStudents();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    selectStudent(student) {
+      this.findName = "";
+      this.findStudent = student;
+    },
+    async deleteStudent(student) {
+      try {
+        await axios.delete("/api/students/" + student._id);
+        this.findStudent = null;
+        this.$root.getStudents();
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async editStudent(student) {
+      try {
+        await axios.put("/api/students/" + student._id, {
+          firstname: this.findStudent.firstname,
+          lastname: this.findStudent.lastname,
+          species: this.findStudent.species,
+          gender: this.findStudent.gender,
+          gpa: this.findStudent.gpa,
+        });
+        this.findStudent = null;
+        this.$root.getStudents();
+        return true;
       } catch (error) {
         console.log(error);
       }
