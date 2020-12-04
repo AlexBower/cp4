@@ -2,7 +2,6 @@
 <div class="teacher">
   <h1>Teachers only!</h1>
     <div class="heading">
-      <div class="circle">1</div>
       <h2>Add a student</h2>
     </div>
     <div class="add">
@@ -17,7 +16,7 @@
         <p></p>
         <input v-model.number="gpa" type="number" step=".01">
         <p></p>
-        <input type="file" name="photo" @change="fileChanged">
+        <input class="file-upload" type="file" name="photo" @change="fileChanged">
         <button @click="upload">Upload</button>
       </div>
       <div class="upload" v-if="addStudent">
@@ -30,7 +29,6 @@
       </div>
     </div>
     <div class="heading">
-      <div class="circle">2</div>
       <h2>Edit/Remove a Student</h2>
     </div>
     <div class="edit">
@@ -57,7 +55,7 @@
       </div>
       <div class="actions" v-if="findStudent">
         <button @click="deleteStudent(findStudent)">Delete</button>
-        <button @click="editStudent(findStudent)">Edit</button>
+        <button style="margin-left: 15px" @click="editStudent(findStudent)">Edit</button>
       </div>
     </div>
 </div>
@@ -85,14 +83,11 @@
   display: flex;
 }
 
-.circle {
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  padding: 8px;
-  background: #333;
-  color: #fff;
-  text-align: center
+button  {
+  padding: 5px 10px;
+  background-color: #8dc090;
+  border-radius: 3px;
+  border: solid black;
 }
 
 /* Form */
